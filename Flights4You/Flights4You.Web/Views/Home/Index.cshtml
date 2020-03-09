@@ -1,0 +1,108 @@
+﻿@model Model.MyJsonObject
+
+@{
+    ViewData["Title"] = "Flights4You";
+    var str = ViewData["Data"];
+}
+<h2>@ViewData["Title"]</h2>
+<h3>@ViewData["Message"]</h3>
+
+<p>Use this area to provide additional information.</p>
+<a href="https://en.wikipedia.org/wiki/List_of_airports_by_IATA_code:_A" target="_blank">List of airports by IATA code</a>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<form action="/Home/GetApi" method="post">
+    <div class="form-row">
+        <div class="col">
+            <input type="text" name="departure" class="form-control" placeholder="Departure (IATA code)" required>
+        </div>
+        <div class="col">
+            <input type="text" name="destination" class="form-control" placeholder="Destination (IATA code)" required>
+        </div>
+        <div class="col">
+            <input type="date" name="date" class="form-control" placeholder="Date" required>
+        </div>
+        <div class="col">
+            <input type="number" name="passengers" class="form-control" placeholder="Number of passengers">
+        </div>
+        <div class="col">
+            <select name="currency" class="form-control" id="sel1">
+                <option>EUR</option>
+                <option>USD</option>
+                <option>HRK</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary" value="Submit">Search</button>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>Departure date</th>
+            <th>Number of transfers</th>
+            <th>Adults</th>
+            <th>Total price</th>
+            <th>Currency</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (str.Equals("apiData"))
+        {
+
+            <p>API data</p>
+            <hr />
+
+            foreach (var item in Model.Data)
+            {
+
+                <tr>
+                    @{
+                        var number = item.OfferItems[0].Services[0].Segments.Count - 1;
+
+                    }
+                    <td>@item.OfferItems[0].Services[0].Segments[0].FlightSegment.Departure.IataCode</td>
+                    <td>@item.OfferItems[0].Services[0].Segments[number].FlightSegment.Arrival.IataCode</td>
+                    <td>@item.OfferItems[0].Services[0].Segments[0].FlightSegment.Departure.At.ToShortDateString()</td>
+                    <td>@number</td>
+                    <td>@ViewData["Passengers"]</td>
+                    <td>@item.OfferItems[0].Price.Total</td>
+                    <td>@Model.Meta.Currency</td>
+                </tr>
+            }
+        }
+        @if (str.Equals("cacheData"))
+        {
+            <p>Cache data</p>
+            <hr />
+
+            foreach (var item in Model.Data)
+            {
+
+                <tr>
+                    @{
+                        var number = item.OfferItems[0].Services[0].Segments.Count - 1;
+
+                    }
+                    <td>@item.OfferItems[0].Services[0].Segments[0].FlightSegment.Departure.IataCode</td>
+                    <td>@item.OfferItems[0].Services[0].Segments[number].FlightSegment.Arrival.IataCode</td>
+                    <td>@item.OfferItems[0].Services[0].Segments[0].FlightSegment.Departure.At.ToShortDateString()</td>
+                    <td>@number</td>
+                    <td>@ViewData["Passengers"]</td>
+                    <td>@item.OfferItems[0].Price.Total</td>
+                    <td>@Model.Meta.Currency</td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+
+

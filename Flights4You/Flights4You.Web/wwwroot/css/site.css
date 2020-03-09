@@ -1,0 +1,18 @@
+﻿body {
+    padding: 20px;
+    font-size: 15px !important;
+    text-align: center !important;
+} 
+form {
+    margin: 20px auto;
+}
+form input {
+    font-size: 15px !important;
+}
+form select {
+    font-size: 15px !important;
+}
+button {
+    padding: 0 10px !important;
+    font-size: 15px !important;
+}

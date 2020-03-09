@@ -1,0 +1,6 @@
+{
+  "MyStringProperty": "StringValue",
+  "MyIntegerProperty": 1,
+  "MySubDocument": { "SubDocumentProperty": "SubDocumentValue" },
+  "MyListProperty": [ 1, 2, 3 ]
+}
